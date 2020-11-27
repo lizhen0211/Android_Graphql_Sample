@@ -1,0 +1,41 @@
+query User($login: String!) {
+    user(login: $login) {
+        avatarUrl
+        bio
+        bioHTML
+        company
+        companyHTML
+        createdAt
+        databaseId
+        email
+        id
+        isBountyHunter
+        isCampusExpert
+        isDeveloperProgramMember
+        isHireable
+        isEmployee
+        isSiteAdmin
+        isViewer
+        location
+        login
+        name
+        resourcePath
+        updatedAt
+        url
+        viewerCanFollow
+        viewerIsFollowing
+        websiteUrl
+        repositories {
+            totalCount
+        }
+        followers {
+            totalCount
+        }
+        following {
+            totalCount
+        }
+        starredRepositories {
+            totalCount
+        }
+    }
+}
