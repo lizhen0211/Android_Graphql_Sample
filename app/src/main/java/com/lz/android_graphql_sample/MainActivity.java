@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.exception.ApolloException;
+import com.django.AllBooksQuery;
 import com.github.UserQuery;
 
 
@@ -33,6 +34,28 @@ public class MainActivity extends AppCompatActivity {
         this.onLogin();
     }
 
+    public void onQueryBooksClick(View view) {
+        this.query();
+    }
+
+    private void query() {
+        ApolloClient apolloClient = ApolloClient.builder()
+                .okHttpClient(new OkHttpClient().newBuilder().build())
+                .serverUrl("http://127.0.0.1:8000/graphql")
+                .build();
+        apolloClient.query(AllBooksQuery.builder().build()).enqueue(new ApolloCall.Callback<AllBooksQuery.Data>() {
+            @Override
+            public void onResponse(@NotNull com.apollographql.apollo.api.Response<AllBooksQuery.Data> response) {
+                Log.e(MainActivity.class.getSimpleName(), String.valueOf(response.getData()));
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+                Log.e(MainActivity.class.getSimpleName(), e.toString());
+            }
+        });
+    }
+
     public void onLogin() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
@@ -50,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 .serverUrl("https://api.github.com/graphql")
                 .build();
 
-        apolloClient.query(UserQuery.builder().login("lizhen02111").build()).enqueue(new ApolloCall.Callback<UserQuery.Data>() {
+        apolloClient.query(UserQuery.builder().login("lizhen0211").build()).enqueue(new ApolloCall.Callback<UserQuery.Data>() {
             @Override
             public void onResponse(@NotNull com.apollographql.apollo.api.Response<UserQuery.Data> response) {
                 Log.e(MainActivity.class.getSimpleName(), String.valueOf(response.getData()));
@@ -58,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull ApolloException e) {
-
+                Log.e(MainActivity.class.getSimpleName(), e.toString());
             }
         });
     }
