@@ -1,0 +1,6 @@
+query AllTitles{
+    allTitles {
+        id,
+        title
+    }
+}

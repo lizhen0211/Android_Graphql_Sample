@@ -10,6 +10,7 @@ import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.exception.ApolloException;
 import com.django.AllBooksQuery;
+import com.django.AllTitlesQuery;
 import com.github.UserQuery;
 
 
@@ -35,17 +36,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onQueryBooksClick(View view) {
-        this.query();
+        this.queryBooks();
     }
 
-    private void query() {
+    private void queryBooks() {
         ApolloClient apolloClient = ApolloClient.builder()
                 .okHttpClient(new OkHttpClient().newBuilder().build())
-                .serverUrl("http://127.0.0.1:8000/graphql")
+                .serverUrl("http://192.168.6.49:9006/graphql/")
                 .build();
         apolloClient.query(AllBooksQuery.builder().build()).enqueue(new ApolloCall.Callback<AllBooksQuery.Data>() {
             @Override
             public void onResponse(@NotNull com.apollographql.apollo.api.Response<AllBooksQuery.Data> response) {
+                Log.e(MainActivity.class.getSimpleName(), String.valueOf(response.getData()));
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+                Log.e(MainActivity.class.getSimpleName(), e.toString());
+            }
+        });
+    }
+
+    private void queryTitles() {
+        ApolloClient apolloClient = ApolloClient.builder()
+                .okHttpClient(new OkHttpClient().newBuilder().build())
+                .serverUrl("http://192.168.6.49:9006/graphql/")
+                .build();
+        apolloClient.query(AllTitlesQuery.builder().build()).enqueue(new ApolloCall.Callback<AllTitlesQuery.Data>() {
+            @Override
+            public void onResponse(@NotNull com.apollographql.apollo.api.Response<AllTitlesQuery.Data> response) {
                 Log.e(MainActivity.class.getSimpleName(), String.valueOf(response.getData()));
             }
 
